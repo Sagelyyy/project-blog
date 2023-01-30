@@ -14,7 +14,7 @@ BlogSchema.virtual("date").get(function () {
 });
 
 BlogSchema.virtual("url").get(function () {
-  return `/Blogs/${this._id}`;
+  return `/blogs/${this._id}`;
 });
 
 module.exports = mongoose.model("Blog", BlogSchema);

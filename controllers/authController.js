@@ -4,7 +4,16 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 
 exports.auth_login_get = (req, res, next) => {
-  res.json({ message: "TODO Login Get" });
+  if (req.user && req.user.admin) {
+    User.find()
+      .select("user.username user.email user.admin")
+      .exec((err, users) => {
+        if (err) return next(err);
+        res.json({ users });
+      });
+  } else {
+    res.sendStatus(403);
+  }
 };
 
 exports.auth_login_post = (req, res, next) => {

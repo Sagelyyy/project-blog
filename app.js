@@ -3,10 +3,6 @@ const path = require("path");
 const logger = require("morgan");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-
-// const User = require("./models/User")
 
 // init dotenv
 dotenv.config();
