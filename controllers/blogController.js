@@ -5,7 +5,7 @@ exports.blog_get = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.json(blogs);
+    res.json({ current_user: req.user.email, blogs });
   });
 };
 
@@ -17,12 +17,14 @@ exports.blog_post = (req, res, next) => {
       user: req.user.id,
       title: req.body.title,
       text: req.body.text,
+      number: req.body.number,
       timestamp: Date.now(),
     }).save((err, blog) => {
       if (err) {
         return next(err);
       }
       res.json({
+        current_user: req.user.email,
         message: "success",
         blog,
       });
@@ -36,6 +38,7 @@ exports.blog_detail = (req, res, next) => {
   Blog.findById(req.params.id).exec(function (err, blog) {
     if (err) return next(err);
     res.json({
+      current_user: req.user.email,
       blog,
     });
   });
@@ -53,7 +56,7 @@ exports.blog_update_put = (req, res, next) => {
 
     Blog.findByIdAndUpdate(req.params.id, newBlog).exec(function (err, result) {
       if (err) return next(err);
-      res.json({ newBlog });
+      res.json({ current_user: req.user.email, newBlog });
     });
   } else {
     res.sendStatus(403);
@@ -65,7 +68,10 @@ exports.blog_delete = (req, res, next) => {
   if (req.user && req.user.admin) {
     Blog.findByIdAndDelete(req.params.id).exec(function (err, result) {
       if (err) return next(err);
-      res.json({ message: `Deleted post ${req.params.id}` });
+      res.json({
+        current_user: req.user.email,
+        message: `Deleted post ${req.params.id}`,
+      });
     });
   } else {
     res.sendStatus(403);

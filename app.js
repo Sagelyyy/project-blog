@@ -3,6 +3,8 @@ const path = require("path");
 const logger = require("morgan");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 // init dotenv
 dotenv.config();
@@ -22,7 +24,13 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 const apiRouter = require("./routes/index");
 
 // express setup
+const corsOptions = {
+  origin: "http://localhost:8080",
+  credentials: true,
+};
 
+app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

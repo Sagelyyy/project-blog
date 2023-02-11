@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const cookieParser = require("cookie-parser");
 const { body, validationResult } = require("express-validator");
 
 exports.auth_login_get = (req, res, next) => {
@@ -35,9 +36,11 @@ exports.auth_login_post = (req, res, next) => {
           },
           process.env.ACCESS_TOKEN_SECRET,
           (err, token) => {
-            res.json({
-              token,
+            res.cookie("authorization", "Bearer " + token, {
+              httpOnly: true,
+              maxAge: 3 * 24 * 60 * 1000,
             });
+            res.json({ message: "success", user });
           }
         );
       } else {
@@ -48,4 +51,12 @@ exports.auth_login_post = (req, res, next) => {
       }
     });
   });
+};
+
+exports.get_auth_status = (req, res, next) => {
+  if (req.user) {
+    res.json({ user: req.user });
+  } else {
+    res.sendStatus(403);
+  }
 };

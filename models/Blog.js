@@ -6,6 +6,7 @@ const BlogSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   title: { type: String, required: true, minLength: 1, maxLength: 50 },
   text: { type: String, required: true, minLength: 1, maxLength: 500 },
+  number: { type: Number, required: true },
   timestamp: { type: Date, default: Date.now, required: true },
 });
 

@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = function (req, res, next) {
-  const authHeader = req.headers["authorization"];
+  const authHeader = req.cookies["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) {
     return next();

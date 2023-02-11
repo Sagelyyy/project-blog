@@ -17,6 +17,7 @@ router.get("/", (req, res, next) => {
 // Auth Routes
 router.get("/users", authController.auth_login_get);
 router.post("/users", authController.auth_login_post);
+router.get("/users/me", authController.get_auth_status);
 
 // Blog Routes
 router.get("/blogs", blogController.blog_get);
