@@ -1,12 +1,15 @@
 const Blog = require("../models/Blog");
+const Comment = require("../models/Comment");
 
 exports.blog_get = (req, res, next) => {
-  Blog.find().exec(function (err, blogs) {
-    if (err) {
-      return next(err);
-    }
-    res.json({ current_user: req.user.email, blogs });
-  });
+  Blog.find()
+    .populate("user", "username avatar")
+    .exec(function (err, blogs) {
+      if (err) {
+        return next(err);
+      }
+      res.json({ blogs });
+    });
 };
 
 exports.blog_post = (req, res, next) => {
@@ -38,7 +41,6 @@ exports.blog_detail = (req, res, next) => {
   Blog.findById(req.params.id).exec(function (err, blog) {
     if (err) return next(err);
     res.json({
-      current_user: req.user.email,
       blog,
     });
   });
@@ -56,7 +58,7 @@ exports.blog_update_put = (req, res, next) => {
 
     Blog.findByIdAndUpdate(req.params.id, newBlog).exec(function (err, result) {
       if (err) return next(err);
-      res.json({ current_user: req.user.email, newBlog });
+      res.json({ newBlog });
     });
   } else {
     res.sendStatus(403);
@@ -69,7 +71,6 @@ exports.blog_delete = (req, res, next) => {
     Blog.findByIdAndDelete(req.params.id).exec(function (err, result) {
       if (err) return next(err);
       res.json({
-        current_user: req.user.email,
         message: `Deleted post ${req.params.id}`,
       });
     });

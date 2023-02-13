@@ -9,7 +9,7 @@ const UserSchema = new Schema(
     avatar: { type: String },
     admin: { type: Boolean, default: false },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 module.exports = mongoose.model("User", UserSchema);
