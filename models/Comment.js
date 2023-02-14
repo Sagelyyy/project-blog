@@ -8,7 +8,6 @@ const CommentSchema = new Schema(
       type: String,
       minLength: 1,
       maxLength: 20,
-      default: "Anonymous",
       required: false,
     },
     user: { type: Schema.Types.ObjectId, required: false },

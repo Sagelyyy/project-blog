@@ -4,6 +4,7 @@ const Comment = require("../models/Comment");
 exports.blog_get = (req, res, next) => {
   Blog.find()
     .populate("user", "username avatar")
+    .sort({ timestamp: "descending" })
     .exec(function (err, blogs) {
       if (err) {
         return next(err);

@@ -18,16 +18,13 @@ exports.blog_comment_get = (req, res, next) => {
     });
 };
 
+// TODO add validation!
 exports.blog_comment_post = (req, res, next) => {
   const newComment = new Comment({
     post: req.params.id,
     user: req.user ? req.user.id : null,
     text: req.body.text,
-    public_username: req.user
-      ? null
-      : req.body.anonymous
-      ? req.body.anonymous
-      : "Anonymous",
+    public_username: req.body.public_username,
   }).save((err, comment) => {
     if (err) return next(err);
     Blog.findByIdAndUpdate(
@@ -50,6 +47,7 @@ exports.comment_detail = (req, res, next) => {
   });
 };
 
+// TODO add validation!
 exports.comment_update_put = (req, res, next) => {
   if (req.user && req.user.admin) {
     Comment.findOneAndUpdate(
