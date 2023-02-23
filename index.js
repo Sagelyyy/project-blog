@@ -28,8 +28,11 @@ const corsOptions = {
   origin: [
     "http://localhost:8080",
     "http://localhost:8081",
+    //CMS
     "https://silver-pony-75526a.netlify.app",
-    "https://singular-caramel-788253.netlify.app",
+    // Front End
+    "https://singular-caramel-788253.netlify.app/",
+    "https://singular-caramel-788253.netlify.app/blog/*",
   ],
   credentials: true,
 };
@@ -47,4 +50,4 @@ app.use(function (req, res, next) {
   res.sendStatus(404);
 });
 
-app.listen(process.env.PORT || 80, () => console.log("Listening on port 3000"));
+app.listen(process.env.PORT || 80, () => console.log("Listening on port 80"));
