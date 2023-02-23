@@ -25,7 +25,12 @@ const apiRouter = require("./routes/index");
 
 // express setup
 const corsOptions = {
-  origin: ["http://localhost:8080", "http://localhost:8081"],
+  origin: [
+    "http://localhost:8080",
+    "http://localhost:8081",
+    "https://silver-pony-75526a.netlify.app",
+    "https://singular-caramel-788253.netlify.app",
+  ],
   credentials: true,
 };
 
