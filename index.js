@@ -31,8 +31,8 @@ const corsOptions = {
     //CMS
     "https://silver-pony-75526a.netlify.app",
     // Front End
-    "https://singular-caramel-788253.netlify.app/",
-    "https://singular-caramel-788253.netlify.app/blog/*",
+    "https://singular-caramel-788253.netlify.app",
+    "https://singular-caramel-788253.netlify.app/blog/",
   ],
   credentials: true,
 };
