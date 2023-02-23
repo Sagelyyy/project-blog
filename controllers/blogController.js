@@ -39,12 +39,14 @@ exports.blog_post = (req, res, next) => {
 };
 
 exports.blog_detail = (req, res, next) => {
-  Blog.findById(req.params.id).exec(function (err, blog) {
-    if (err) return next(err);
-    res.json({
-      blog,
+  Blog.findById(req.params.id)
+    .populate("user", "username avatar")
+    .exec(function (err, blog) {
+      if (err) return next(err);
+      res.json({
+        blog,
+      });
     });
-  });
 };
 
 exports.blog_update_put = (req, res, next) => {
