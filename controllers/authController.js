@@ -38,7 +38,7 @@ exports.auth_login_post = (req, res, next) => {
           (err, token) => {
             res.cookie("authorization", "Bearer " + token, {
               httpOnly: true,
-              maxAge: 3 * 24 * 60 * 1000,
+              expiresIn: "1m",
             });
             res.json({ message: "success", user });
           }
