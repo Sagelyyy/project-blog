@@ -36,9 +36,10 @@ exports.auth_login_post = (req, res, next) => {
           },
           process.env.ACCESS_TOKEN_SECRET,
           (err, token) => {
+            let expireTime = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
             res.cookie("authorization", "Bearer " + token, {
               httpOnly: true,
-              expiresIn: "1m",
+              expires: expireTime,
             });
             res.json({ message: "success", user });
           }
