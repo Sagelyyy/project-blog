@@ -27,21 +27,22 @@ exports.auth_login_post = (req, res, next) => {
         return next(err);
       }
       if (result) {
-        // JWT
+        let maxAge = 3 * 24 * 60 * 60
         jwt.sign(
           {
             email: user.email,
             admin: user.admin,
             id: user._id,
+            expiresIn: maxAge * 1000
           },
           process.env.ACCESS_TOKEN_SECRET,
           (err, token) => {
             if(err) return next(err)
-            let expireTime = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
             res.cookie("authorization", "Bearer " + token, {
               httpOnly: true,
+              maxAge: maxAge * 1000
             });
-            res.json({ message: "success", user });
+            res.status(201).json({ message: "success", user });
           }
         );
       } else {
