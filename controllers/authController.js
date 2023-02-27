@@ -33,16 +33,16 @@ exports.auth_login_post = (req, res, next) => {
             email: user.email,
             admin: user.admin,
             id: user._id,
-            expiresIn: maxAge * 1000
           },
-          process.env.ACCESS_TOKEN_SECRET,
+          process.env.ACCESS_TOKEN_SECRET,{
+          expiresIn: maxAge * 1000},
           (err, token) => {
             if(err) return next(err)
             res.cookie("authorization", "Bearer " + token, {
               httpOnly: true,
               maxAge: maxAge * 1000
             });
-            res.status(201).json({ message: "success", user });
+            res.json({ message: "success", user });
           }
         );
       } else {
