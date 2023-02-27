@@ -42,7 +42,7 @@ exports.auth_login_post = (req, res, next) => {
               httpOnly: true,
               maxAge: expireTime,
             });
-            res.json({ message: "success", user });
+            // res.json({ message: "success", user });
           }
         );
       } else {
