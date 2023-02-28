@@ -21,7 +21,8 @@ exports.auth_login_post = [
   body("email", "Invalid email address").trim().escape().isLength({min: 1}),
   body("password", "Invalid password").trim().escape().isLength({min: 1}),
 (req, res, next) => {
-  const errors = validationResult(req)
+  const errors = validationResult(req).map(function({msg}){return msg})
+  console.log(errors)
   if(!errors.isEmpty()){
     console.log(errors.array())
     res.status(400).json(
