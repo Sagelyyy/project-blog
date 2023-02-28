@@ -28,7 +28,7 @@ exports.auth_login_post = [
   if(!errors.isEmpty()){
     console.log(errors.array())
     res.status(400).json(
-      {messages}
+      {message: messages}
     )
     return
   }
