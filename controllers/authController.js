@@ -17,7 +17,10 @@ exports.auth_login_get = (req, res, next) => {
   }
 };
 
-exports.auth_login_post = (req, res, next) => {
+exports.auth_login_post = [
+  body("email", "Invalid email address").trim().escape().isLength({min: 1}),
+  body("password", "Invalid password").trim().escape().isLength({min: 1}),
+(req, res, next) => {
   User.findOne({ email: req.body.email }).exec(function (err, user) {
     if (err) {
       throw new Error(err);
@@ -47,12 +50,13 @@ exports.auth_login_post = (req, res, next) => {
       } else {
         return res.status(400).json({
           success: false,
-          message: "passwords do not match",
+          message: "Invalid password",
         });
       }
     });
   });
-};
+}
+];
 
 exports.get_auth_status = (req, res, next) => {
   if (req.user) {
