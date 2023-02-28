@@ -45,7 +45,7 @@ exports.auth_login_post = (req, res, next) => {
           }
         );
       } else {
-        return res.json({
+        return res.status(400).json({
           success: false,
           message: "passwords do not match",
         });
