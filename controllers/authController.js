@@ -22,13 +22,12 @@ exports.auth_login_post = [
   body("password", "Invalid password").trim().escape().isLength({min: 1}),
 (req, res, next) => {
   const errors = validationResult(req)
-  for(const error in errors){
-    console.log(error.msg)
-  }
   if(!errors.isEmpty()){
+    console.log(errors)
     res.status(400).json(
       {message: errors}
     )
+    return
   }
   User.findOne({ email: req.body.email }).exec(function (err, user) {
     if (err) {
