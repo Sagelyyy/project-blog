@@ -29,10 +29,8 @@ const corsOptions = {
     "http://localhost:8080",
     "http://localhost:8081",
     //CMS
-    "https://silver-pony-75526a.netlify.app",
+    "chriscancodecms.up.railway.app",
     // Front End
-    "https://singular-caramel-788253.netlify.app",
-    "https://singular-caramel-788253.netlify.app/blog/",
     "https://chriscancode.up.railway.app"
   ],
   credentials: true,
