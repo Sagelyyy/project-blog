@@ -24,6 +24,7 @@ exports.auth_login_post = [
   const errors = validationResult(req)
   const messages = validationResult(req).array().map(function({msg}){return {message: msg}})
   console.log(errors)
+  console.log(messages)
   if(!errors.isEmpty()){
     console.log(errors.array())
     res.status(400).json(
