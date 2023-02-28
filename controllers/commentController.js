@@ -1,6 +1,6 @@
 const Comment = require("../models/Comment");
 const Blog = require("../models/Blog");
-const { populate } = require("../models/Blog");
+const { body } = require("express-validator");
 
 exports.comment_get = (req, res, next) => {
   Comment.find().exec((err, comments) => {
@@ -18,8 +18,17 @@ exports.blog_comment_get = (req, res, next) => {
     });
 };
 
-// TODO add validation!
-exports.blog_comment_post = (req, res, next) => {
+exports.blog_comment_post = [
+  body("text", "Invalid post").not().isEmpty().trim().escape(),
+(req, res, next) => {
+  const errors = validationResult(req)
+  let messages = validationResult(req).array()
+  if(!errors.isEmpty()){
+    res.status(400).json(
+      {message: messages}
+    )
+    return
+  }
   const newComment = new Comment({
     post: req.params.id,
     user: req.user ? req.user.id : null,
@@ -38,7 +47,8 @@ exports.blog_comment_post = (req, res, next) => {
       }
     );
   });
-};
+}
+]
 
 exports.comment_detail = (req, res, next) => {
   Comment.findById(req.params.id).exec(function (err, comment) {
@@ -47,9 +57,18 @@ exports.comment_detail = (req, res, next) => {
   });
 };
 
-// TODO add validation!
-exports.comment_update_put = (req, res, next) => {
+exports.comment_update_put = [
+  body("text", "Invalid post").not().isEmpty().trim().escape(),
+(req, res, next) => {
   if (req.user && req.user.admin) {
+    const errors = validationResult(req)
+    let messages = validationResult(req).array()
+    if(!errors.isEmpty()){
+      res.status(400).json(
+        {message: messages}
+      )
+      return
+    }
     Comment.findOneAndUpdate(
       { _id: req.params.id },
       {
@@ -67,7 +86,8 @@ exports.comment_update_put = (req, res, next) => {
   } else {
     res.sendStatus(403);
   }
-};
+}
+]
 
 exports.comment_delete = (req, res, next) => {
   if (req.user && req.user.admin && req.body.blog) {

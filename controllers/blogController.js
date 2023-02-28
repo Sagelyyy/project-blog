@@ -1,3 +1,4 @@
+const { body } = require("express-validator");
 const Blog = require("../models/Blog");
 const Comment = require("../models/Comment");
 
@@ -13,9 +14,20 @@ exports.blog_get = (req, res, next) => {
     });
 };
 
-exports.blog_post = (req, res, next) => {
-  // TODO add validation!
+exports.blog_post = [
+  body("title", "Invalid Title").not().isEmpty().trim().escape().isLength({max: 50}),
+  body("text", "Post").not().isEmpty().trim().escape().isLength({min: 500}),
+  body("number", "Invalid roll").not().isEmpty().trim().escape(),
+(req, res, next) => {
   if (req.user && req.user.admin) {
+    const errors = validationResult(req)
+    let messages = validationResult(req).array()
+    if(!errors.isEmpty()){
+      res.status(400).json(
+        {message: messages}
+      )
+      return
+    }
     const newBlog = new Blog({
       email: req.user.email,
       user: req.user.id,
@@ -36,7 +48,8 @@ exports.blog_post = (req, res, next) => {
   } else {
     res.sendStatus(403);
   }
-};
+}
+]
 
 exports.blog_detail = (req, res, next) => {
   Blog.findById(req.params.id)
@@ -49,8 +62,18 @@ exports.blog_detail = (req, res, next) => {
     });
 };
 
-exports.blog_update_put = (req, res, next) => {
-  // TODO add validation!
+exports.blog_update_put = [
+  body("title", "Invalid Title").not().isEmpty().trim().escape().isLength({max: 50}),
+  body("text", "Post").not().isEmpty().trim().escape().isLength({min: 500}),
+  (req, res, next) => {
+    const errors = validationResult(req)
+    let messages = validationResult(req).array()
+    if(!errors.isEmpty()){
+      res.status(400).json(
+        {message: messages}
+      )
+      return
+    }
   if (req.user && req.user.admin) {
     const newBlog = new Blog({
       user: req.user.username,
@@ -66,10 +89,10 @@ exports.blog_update_put = (req, res, next) => {
   } else {
     res.sendStatus(403);
   }
-};
+}
+]
 
 exports.blog_delete = (req, res, next) => {
-  // TODO add validation!
   if (req.user && req.user.admin) {
     Blog.findByIdAndDelete(req.params.id).exec(function (err, result) {
       if (err) return next(err);
