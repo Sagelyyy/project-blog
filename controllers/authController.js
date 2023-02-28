@@ -31,6 +31,7 @@ exports.auth_login_post = [
   }
   User.findOne({ email: req.body.email }).exec(function (err, user) {
     if (err) {
+      console.log(err)
       throw new Error(err);
     }
     bcrypt.compare(req.body.password, user.password, (err, result) => {
