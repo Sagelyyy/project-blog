@@ -22,10 +22,8 @@ exports.auth_login_post = [
   body("password", "Invalid password").trim().escape().isLength({min: 1}),
 (req, res, next) => {
   const errors = validationResult(req)
-  const messages = validationResult(req).array()
+  let messages = validationResult(req).array()
   if(!errors.isEmpty()){
-    console.log(errors)
-    console.log(messages)
     res.status(400).json(
       {message: messages}
     )
@@ -58,8 +56,9 @@ exports.auth_login_post = [
           }
         );
       } else {
+        messages = [{msg: "Invalid password"}]
         return res.status(400).json({
-          message: "Invalid password",
+          message: messages,
         });
       }
     });
