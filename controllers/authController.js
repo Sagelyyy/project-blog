@@ -31,9 +31,9 @@ exports.auth_login_post = [
   }
   User.findOne({ email: req.body.email }).exec(function (err, user) {
     if (err) {
-      console.log(err)
       throw new Error(err);
     }
+    if(user){
     bcrypt.compare(req.body.password, user.password, (err, result) => {
       if (err) {
         return next(err);
@@ -63,6 +63,12 @@ exports.auth_login_post = [
         });
       }
     });
+  }else{
+    messages = [{msg: "Invalid email"}]
+    return res.status(400).json({
+      message: messages,
+    });
+  }
   });
 }
 ];
