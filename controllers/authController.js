@@ -22,11 +22,9 @@ exports.auth_login_post = [
   body("password", "Invalid password").trim().escape().isLength({min: 1}),
 (req, res, next) => {
   const errors = validationResult(req)
-  const messages = validationResult(req).array().map(function({msg}){return {message: msg}})
-  console.log(errors)
-  console.log(messages)
+  const messages = validationResult(req).array()
   if(!errors.isEmpty()){
-    console.log(errors.array())
+    console.log(messages)
     res.status(400).json(
       {message: messages}
     )
