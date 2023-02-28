@@ -21,6 +21,13 @@ exports.auth_login_post = [
   body("email", "Invalid email address").trim().escape().isLength({min: 1}),
   body("password", "Invalid password").trim().escape().isLength({min: 1}),
 (req, res, next) => {
+  const errors = validationResult(req)
+  console.log(errors)
+  if(!errors.isEmpty()){
+    res.status(400).json(
+      {message: errors}
+    )
+  }
   User.findOne({ email: req.body.email }).exec(function (err, user) {
     if (err) {
       throw new Error(err);
@@ -49,7 +56,6 @@ exports.auth_login_post = [
         );
       } else {
         return res.status(400).json({
-          success: false,
           message: "Invalid password",
         });
       }
