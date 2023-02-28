@@ -29,7 +29,7 @@ const corsOptions = {
     "http://localhost:8080",
     "http://localhost:8081",
     //CMS
-    "chriscancodecms.up.railway.app",
+    "https://chriscancodecms.up.railway.app",
     // Front End
     "https://chriscancode.up.railway.app"
   ],
