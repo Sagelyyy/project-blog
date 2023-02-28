@@ -33,6 +33,7 @@ const corsOptions = {
     // Front End
     "https://singular-caramel-788253.netlify.app",
     "https://singular-caramel-788253.netlify.app/blog/",
+    "https://chriscancode.up.railway.app"
   ],
   credentials: true,
 };
