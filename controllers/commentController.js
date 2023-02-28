@@ -1,6 +1,6 @@
 const Comment = require("../models/Comment");
 const Blog = require("../models/Blog");
-const { body } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 exports.comment_get = (req, res, next) => {
   Comment.find().exec((err, comments) => {
