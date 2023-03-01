@@ -10,6 +10,7 @@ const BlogSchema = new Schema(
     number: { type: Number, required: true },
     timestamp: { type: Date, default: Date.now, required: true },
     comments: { type: [mongoose.Schema.ObjectId], ref: "Comments" },
+    status: {type: String, enum:['published', 'unpublished'], required: true}
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

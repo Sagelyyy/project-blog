@@ -1,18 +1,31 @@
 const { body, validationResult } = require("express-validator");
 const Blog = require("../models/Blog");
-const Comment = require("../models/Comment");
 
 exports.blog_get = (req, res, next) => {
-  Blog.find()
-    .populate("user", "username avatar")
-    .sort({ timestamp: "descending" })
-    .exec(function (err, blogs) {
-      if (err) {
-        return next(err);
-      }
-      res.json({ blogs });
-    });
+  const referrer = req.headers.referer;
+  if (referrer && (referrer.includes('https://chriscancode.up.railway.app/'))) {
+    Blog.find({status: 'published'})
+      .populate("user", "username avatar")
+      .sort({ timestamp: "descending" })
+      .exec(function (err, blogs) {
+        if (err) {
+          return next(err);
+        }
+        res.json({ blogs });
+      });
+  } else {
+    Blog.find()
+      .populate("user", "username avatar")
+      .sort({ timestamp: "descending" })
+      .exec(function (err, blogs) {
+        if (err) {
+          return next(err);
+        }
+        res.json({ blogs });
+      });
+  }
 };
+
 
 exports.blog_post = [
   body("title", "Invalid Title").not().isEmpty().trim().escape().isLength({max: 50}),
