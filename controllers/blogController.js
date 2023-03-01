@@ -26,7 +26,6 @@ exports.blog_get = (req, res, next) => {
   }
 };
 
-
 exports.blog_post = [
   body("title", "Invalid Title").not().isEmpty().trim().escape().isLength({max: 50}),
   body("text", "Invalid Post").not().isEmpty().trim().isLength({max: 500}),
