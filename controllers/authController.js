@@ -43,6 +43,7 @@ exports.auth_login_post = [
           {
             email: user.email,
             admin: user.admin,
+            username: user.username,
             id: user._id,
           },
           process.env.ACCESS_TOKEN_SECRET,
