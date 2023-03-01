@@ -90,7 +90,7 @@ exports.comment_update_put = [
 ]
 
 exports.comment_delete = (req, res, next) => {
-  if (req.user && req.user.admin && req.body.blog) {
+  if (req.user && req.user.admin) {
     Comment.findByIdAndDelete(req.params.id).exec(function (err, result) {
       if (err) return next(err);
       Blog.updateOne(
