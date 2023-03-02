@@ -46,6 +46,7 @@ exports.blog_post = [
       title: req.body.title,
       text: req.body.text,
       number: req.body.number,
+      status: req.body.status,
       timestamp: Date.now(),
     }).save((err, blog) => {
       if (err) {
@@ -91,6 +92,7 @@ exports.blog_update_put = [
       user: req.user.username,
       title: req.body.title,
       text: req.body.text,
+      status: req.body.status,
       _id: req.params.id,
     });
 
