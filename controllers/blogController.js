@@ -27,8 +27,8 @@ exports.blog_get = (req, res, next) => {
 };
 
 exports.blog_post = [
-  body("title", "Invalid Title").not().isEmpty().trim().escape().isLength({max: 50}),
-  body("text", "Invalid Post").not().isEmpty().trim().isLength({max: 500}),
+  body("title", "Invalid Title").not().isEmpty().trim().escape(),
+  body("text", "Invalid Post").not().isEmpty().trim(),
   body("number", "Invalid roll").not().isEmpty().trim().escape(),
 (req, res, next) => {
   if (req.user && req.user.admin) {
