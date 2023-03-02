@@ -5,8 +5,8 @@ const { DateTime } = require("luxon");
 const BlogSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    title: { type: String, required: true, minLength: 1, maxLength: 250 },
-    text: { type: String, required: true, minLength: 1, maxLength: 2000 },
+    title: { type: String, required: true, minLength: 1},
+    text: { type: String, required: true, minLength: 1},
     number: { type: Number, required: true },
     timestamp: { type: Date, default: Date.now, required: true },
     comments: { type: [mongoose.Schema.ObjectId], ref: "Comments" },
