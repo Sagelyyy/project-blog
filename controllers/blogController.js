@@ -75,7 +75,7 @@ exports.blog_detail = (req, res, next) => {
 
 exports.blog_update_put = [
   body("title", "Invalid Title").not().isEmpty().trim().escape(),
-  body("text", "Post").not().isEmpty().trim().escape(),
+  body("text", "Post").not().isEmpty().trim(),
   (req, res, next) => {
     const errors = validationResult(req);
     let messages = validationResult(req).array();
