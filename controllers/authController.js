@@ -50,7 +50,7 @@ exports.auth_login_post = [
                 const expires = new Date(Date.now() + oneMonth); // Current time + one month
                 if (err) console.log(err);
                 res.cookie("authorization", "Bearer " + token, {
-                  httpOnly: false,
+                  httpOnly: true,
                   maxAge: expires,
                   expires: expires,
                   sameSite: "none",
