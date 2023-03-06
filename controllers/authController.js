@@ -46,10 +46,13 @@ exports.auth_login_post = [
               },
               process.env.ACCESS_TOKEN_SECRET,
               (err, token) => {
+                const oneMonth = 30 * 24 * 60 * 60 * 1000; // One month in milliseconds
+                const expires = new Date(Date.now() + oneMonth); // Current time + one month
                 if (err) console.log(err);
                 res.cookie("authorization", "Bearer " + token, {
                   httpOnly: false,
-                  maxAge: 3 * 24 * 60 * 1000,
+                  maxAge: expires,
+                  expires: expires,
                   sameSite: "none",
                   secure: true,
                 });
