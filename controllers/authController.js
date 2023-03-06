@@ -18,60 +18,59 @@ exports.auth_login_get = (req, res, next) => {
 };
 
 exports.auth_login_post = [
-  body("email", "Invalid email address").trim().escape().isLength({min: 1}),
-  body("password", "Invalid password").trim().escape().isLength({min: 1}),
-(req, res, next) => {
-  const errors = validationResult(req)
-  let messages = validationResult(req).array()
-  if(!errors.isEmpty()){
-    res.status(400).json(
-      {message: messages}
-    )
-    return
-  }
-  User.findOne({ email: req.body.email }).exec(function (err, user) {
-    if (err) {
-      throw new Error(err);
+  body("email", "Invalid email address").trim().escape().isLength({ min: 1 }),
+  body("password", "Invalid password").trim().escape().isLength({ min: 1 }),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    let messages = validationResult(req).array();
+    if (!errors.isEmpty()) {
+      res.status(400).json({ message: messages });
+      return;
     }
-    if(user){
-    bcrypt.compare(req.body.password, user.password, (err, result) => {
+    User.findOne({ email: req.body.email }).exec(function (err, user) {
       if (err) {
-        return next(err);
+        throw new Error(err);
       }
-      if (result) {
-        jwt.sign(
-          {
-            email: user.email,
-            admin: user.admin,
-            username: user.username,
-            id: user._id,
-          },
-          process.env.ACCESS_TOKEN_SECRET,
-          (err, token) => {
-            res.cookie("authorization", "Bearer " + token, {
-              httpOnly: true,
-              maxAge: 3 * 24 * 60 * 1000,
-              sameSite: "none",
-              secure: true,
-            });
-            res.json({ message: "success", user });
+      if (user) {
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
+          if (err) {
+            return next(err);
           }
-        );
+          if (result) {
+            jwt.sign(
+              {
+                email: user.email,
+                admin: user.admin,
+                username: user.username,
+                id: user._id,
+              },
+              process.env.ACCESS_TOKEN_SECRET,
+              (err, token) => {
+                if (err) console.log(err);
+                res.cookie("authorization", "Bearer " + token, {
+                  httpOnly: false,
+                  maxAge: 3 * 24 * 60 * 1000,
+                  sameSite: "none",
+                  secure: true,
+                });
+                res.json({ message: "success", user });
+              }
+            );
+          } else {
+            messages = [{ msg: "Invalid password" }];
+            return res.status(400).json({
+              message: messages,
+            });
+          }
+        });
       } else {
-        messages = [{msg: "Invalid password"}]
+        messages = [{ msg: "Invalid email" }];
         return res.status(400).json({
           message: messages,
         });
       }
     });
-  }else{
-    messages = [{msg: "Invalid email"}]
-    return res.status(400).json({
-      message: messages,
-    });
-  }
-  });
-}
+  },
 ];
 
 exports.get_auth_status = (req, res, next) => {
